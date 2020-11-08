@@ -1,4 +1,5 @@
 import enchant
+import pdb
 
 wordList = []
 
@@ -8,7 +9,7 @@ def checkWord(cString):
     else:
         return False
     
-def unscrambler(cString, realWord):
+def unscrambler(cString, realWord, wordLength):
     if not cString:
         if checkWord(realWord):
             return realWord
@@ -18,16 +19,16 @@ def unscrambler(cString, realWord):
         if cString.index(letter) == 0:
             realWord += letter
             changedWord = cString[1:]
-            newWord = unscrambler(changedWord, realWord)
+            newWord = unscrambler(changedWord, realWord, wordLength)
         elif cString.index(letter) == len(cString) - 1:
             realWord += letter
             changedWord = cString[:len(cString) - 1]
-            newWord = unscrambler(changedWord, realWord)
+            newWord = unscrambler(changedWord, realWord, wordLength)
         else:
             realWord += letter
             changedWord = cString[:cString.find(letter)]  + cString[cString.find(letter) + 1:]
-            newWord = unscrambler(changedWord,  realWord)
-        if "*" not in realWord and realWord not in wordList:
+            newWord = unscrambler(changedWord,  realWord, wordLength)
+        if realWord not in wordList and len(realWord) == wordLength:
             wordList.append(realWord)
             realWord = ""
         else:
@@ -36,4 +37,4 @@ def unscrambler(cString, realWord):
 
 englishDict = enchant.Dict("en_US")
 scrambledWord = input("Enter some random letters ")
-print(unscrambler(scrambledWord, ""))
+print(unscrambler(scrambledWord, "", len(scrambledWord)))
