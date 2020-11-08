@@ -1,5 +1,4 @@
 import enchant
-import pdb
 
 wordList = []
 
